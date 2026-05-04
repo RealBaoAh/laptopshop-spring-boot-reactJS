@@ -8,6 +8,16 @@ public class HelloController {
 
     @GetMapping("/")
     public String index() {
-        return "Hello World from Bao Ah!";
+        return "Hello World from Bao Anh";
+    }
+
+    @GetMapping("/user")
+    public String userPage() {
+        return "Hello World from User";
+    }
+
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "Hello World from Admin";
     }
 }
