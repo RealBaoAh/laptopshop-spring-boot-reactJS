@@ -6,7 +6,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Update users ${id}</title>
     <!-- Latest compiled and minified CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -23,23 +23,24 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-6 col-12 mx-auto">
-          <h3>Create user</h3>
+          <h3>Update user</h3>
           <hr />
           <form:form
             method="post"
-            action="/admin/user/create"
+            action="/admin/user/update"
             modelAttribute="newUser"
           >
-            <div class="mb-3">
-              <label class="form-lable">Email: </label>
-              <form:input type="email" class="form-control" path="email" />
+            <div class="mb-3" style="display: none">
+              <label class="form-lable">Id: </label>
+              <form:input type="text" class="form-control" path="id" />
             </div>
             <div class="mb-3">
-              <label class="form-lable">Password: </label>
+              <label class="form-lable">Email: </label>
               <form:input
-                type="password"
+                type="email"
                 class="form-control"
-                path="password"
+                path="email"
+                disabled="true"
               />
             </div>
             <div class="mb-3">
@@ -54,7 +55,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               <label class="form-lable">Address: </label>
               <form:input type="text" class="form-control" path="address" />
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Update</button>
           </form:form>
         </div>
       </div>
