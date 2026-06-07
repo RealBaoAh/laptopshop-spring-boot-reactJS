@@ -41,10 +41,11 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                   <table class="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <td>ID</td>
-                        <td>Email</td>
-                        <td>Full Name</td>
-                        <td>Action</td>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -53,6 +54,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
                         <th>${user.id}</th>
                         <td>${user.email}</td>
                         <td>${user.fullName}</td>
+                        <td>${user.role.name}</td>
                         <td>
                           <a href="/admin/user/${user.id}" class="btn btn-success">View</a>
                           <a href="/admin/user/update/${user.id}" class="btn btn-warning mx-2">Update</a>
