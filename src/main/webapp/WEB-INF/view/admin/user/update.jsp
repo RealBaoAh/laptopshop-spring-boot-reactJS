@@ -1,6 +1,6 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core"%> <%@ taglib prefix="form"
-uri="http://www.springframework.org/tags/form"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib prefix="form"
+uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,14 +11,16 @@ uri="http://www.springframework.org/tags/form"%>
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Laptopshop" />
-    <meta name="author" content="Bảo Anh" />
-    <title>Update User - Laptopshop</title>
+    <meta name="author" content="Hỏi Dân IT" />
+    <title>Update User</title>
     <link href="/css/styles.css" rel="stylesheet" />
+
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
   </head>
+
   <body class="sb-nav-fixed">
     <jsp:include page="../layout/header.jsp" />
     <div id="layoutSidenav">
@@ -26,7 +28,7 @@ uri="http://www.springframework.org/tags/form"%>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Update User</h1>
+            <h1 class="mt-4">Manage Users</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
               <li class="breadcrumb-item active">Users</li>
@@ -40,13 +42,15 @@ uri="http://www.springframework.org/tags/form"%>
                     method="post"
                     action="/admin/user/update"
                     modelAttribute="newUser"
+                    enctype="multipart/form-data"
                   >
                     <div class="mb-3" style="display: none">
-                      <label class="form-lable">Id: </label>
+                      <label class="form-label">Id:</label>
                       <form:input type="text" class="form-control" path="id" />
                     </div>
+
                     <div class="mb-3">
-                      <label class="form-lable">Email: </label>
+                      <label class="form-label">Email:</label>
                       <form:input
                         type="email"
                         class="form-control"
@@ -54,8 +58,9 @@ uri="http://www.springframework.org/tags/form"%>
                         disabled="true"
                       />
                     </div>
+
                     <div class="mb-3">
-                      <label class="form-lable">Phone Number: </label>
+                      <label class="form-label">Phone number:</label>
                       <form:input
                         type="text"
                         class="form-control"
@@ -63,7 +68,7 @@ uri="http://www.springframework.org/tags/form"%>
                       />
                     </div>
                     <div class="mb-3">
-                      <label class="form-lable">Full Name: </label>
+                      <label class="form-label">Full Name:</label>
                       <form:input
                         type="text"
                         class="form-control"
@@ -71,14 +76,28 @@ uri="http://www.springframework.org/tags/form"%>
                       />
                     </div>
                     <div class="mb-3">
-                      <label class="form-lable">Address: </label>
+                      <label class="form-label">Address:</label>
                       <form:input
                         type="text"
                         class="form-control"
                         path="address"
                       />
                     </div>
-                    <button type="submit" class="btn btn-primary">
+
+                    <div class="mb-3">
+                      <label class="form-label">Avatar (Ảnh đại diện):</label>
+                      
+                      <c:if test="${not empty newUser.avatar}">
+                          <div class="mb-2">
+                              <img src="/images/avatar/${newUser.avatar}" alt="Current Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                          </div>
+                      </c:if>
+                      
+                      <input class="form-control" type="file" name="avatarFile" accept="image/png, image/jpeg" />
+                      <small class="text-muted">Để trống nếu không muốn thay đổi ảnh đại diện.</small>
+                  </div>
+
+                    <button type="submit" class="btn btn-warning">
                       Update
                     </button>
                   </form:form>
@@ -94,6 +113,6 @@ uri="http://www.springframework.org/tags/form"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
   </body>
 </html>
