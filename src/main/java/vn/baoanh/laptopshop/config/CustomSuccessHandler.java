@@ -74,7 +74,15 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
+            return;
+        }
 
+        if (request.getHeader("Accept") != null && request.getHeader("Accept").contains("application/json")) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"success\":true,\"targetUrl\":\"" + targetUrl + "\"}");
+            clearAuthenticationAttributes(request, authentication);
             return;
         }
 
