@@ -15,6 +15,7 @@ interface Product {
   factory: string;
   target: string;
   quantity: number;
+  sold?: number;
 }
 
 export const ProductDetail: React.FC = () => {
@@ -25,12 +26,37 @@ export const ProductDetail: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+
+  const fetchRelatedProducts = async (currentProduct: Product) => {
+    try {
+      const res = await api.get(`/api/products?page=1&factory=${currentProduct.factory}`);
+      if (res.data && res.data.products) {
+        const filtered = res.data.products.filter((p: Product) => p.id !== currentProduct.id);
+        if (filtered.length > 0) {
+          setRelatedProducts(filtered.slice(0, 4));
+        } else {
+          // If no other products from the same factory, get any products
+          const backupRes = await api.get(`/api/products?page=1`);
+          if (backupRes.data && backupRes.data.products) {
+            const backupFiltered = backupRes.data.products.filter((p: Product) => p.id !== currentProduct.id);
+            setRelatedProducts(backupFiltered.slice(0, 4));
+          }
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchProduct = async () => {
     setLoading(true);
     try {
       const res = await api.get(`/api/products/${id}`);
       setProduct(res.data);
+      if (res.data) {
+        await fetchRelatedProducts(res.data);
+      }
     } catch (e) {
       console.error(e);
       setProduct(null);
@@ -53,6 +79,20 @@ export const ProductDetail: React.FC = () => {
     const success = await addToCart(product.id, quantity);
     if (success) {
       alert(`Đã thêm ${quantity} sản phẩm vào giỏ hàng!`);
+    } else {
+      alert("Không thể thêm sản phẩm!");
+    }
+  };
+
+  const handleAddRelatedToCart = async (e: React.MouseEvent, productId: number) => {
+    e.preventDefault();
+    if (!user) {
+      alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      return;
+    }
+    const success = await addToCart(productId, 1);
+    if (success) {
+      alert("Đã thêm sản phẩm vào giỏ hàng!");
     } else {
       alert("Không thể thêm sản phẩm!");
     }
@@ -183,6 +223,71 @@ export const ProductDetail: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Related Products Section */}
+      {relatedProducts.length > 0 && (
+        <div className="space-y-6 mt-16">
+          <div className="flex items-center gap-2 border-b border-gray-150 pb-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 m-0">Sản phẩm liên quan</h2>
+            <span className="text-sm text-gray-400 font-medium">({relatedProducts.length})</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {relatedProducts.map(item => (
+              <Link 
+                key={item.id} 
+                to={`/product/${item.id}`}
+                className="group bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md hover:border-blue-300 transition-all flex flex-col"
+              >
+                {/* Image */}
+                <div className="aspect-video bg-gray-50 overflow-hidden relative border-b border-gray-100">
+                  <img 
+                    src={`http://localhost:8080/images/product/${item.image}`}
+                    alt={item.name}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 p-4"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500";
+                    }}
+                  />
+                  {item.sold !== undefined && item.sold > 0 && (
+                    <span className="absolute top-3 left-3 bg-red-100 text-red-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-red-200">
+                      🔥 Đã bán {item.sold}
+                    </span>
+                  )}
+                </div>
+
+                {/* Body */}
+                <div className="p-4 flex-1 flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wide bg-blue-50 px-2 py-0.5 rounded-full inline-block">
+                      {item.factory}
+                    </span>
+                    <h3 className="font-bold text-gray-900 text-sm group-hover:text-blue-600 transition-colors line-clamp-1 m-0">
+                      {item.name}
+                    </h3>
+                    <p className="text-gray-500 text-[11px] line-clamp-2 leading-relaxed m-0">
+                      {item.shortDesc}
+                    </p>
+                  </div>
+
+                  <div className="space-y-3 mt-3">
+                    <div className="text-sm font-extrabold text-blue-600">
+                      {item.price.toLocaleString('vi-VN')} đ
+                    </div>
+
+                    <button 
+                      onClick={(e) => handleAddRelatedToCart(e, item.id)}
+                      className="w-full bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-100 hover:border-blue-600 font-bold py-2 rounded-lg transition-all duration-150 flex items-center justify-center gap-2 text-[11px] cursor-pointer"
+                    >
+                      Thêm vào giỏ
+                    </button>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

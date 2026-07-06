@@ -50,4 +50,8 @@ public class ProductSpecs {
                 root.get(Product_.PRICE), min, max);
     }
 
+    public static Specification<Product> soldGreaterThan(int minSold) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.gt(root.get(Product_.SOLD), minSold);
+    }
+
 }

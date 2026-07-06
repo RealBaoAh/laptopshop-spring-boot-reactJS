@@ -62,7 +62,9 @@ public class ProductService {
     public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
         if (productCriteriaDTO.getTarget() == null
                 && productCriteriaDTO.getFactory() == null
-                && productCriteriaDTO.getPrice() == null) {
+                && productCriteriaDTO.getPrice() == null
+                && (productCriteriaDTO.getSort() == null || !productCriteriaDTO.getSort().isPresent()
+                        || !"ban-chay".equals(productCriteriaDTO.getSort().get()))) {
             return this.productRepository.findAll(page);
         }
 
@@ -80,6 +82,11 @@ public class ProductService {
         if (productCriteriaDTO.getPrice() != null && productCriteriaDTO.getPrice().isPresent()) {
             Specification<Product> currentSpecs = this.buildPriceSpecification(productCriteriaDTO.getPrice().get());
             combinedSpec = combinedSpec.and(currentSpecs);
+        }
+
+        if (productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()
+                && "ban-chay".equals(productCriteriaDTO.getSort().get())) {
+            combinedSpec = combinedSpec.and(ProductSpecs.soldGreaterThan(0));
         }
 
         return this.productRepository.findAll(combinedSpec, page);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, LogOut, User as UserIcon, ShieldAlert, Heart, Search, ChevronDown, Menu, Phone, Mail, Award, MessageCircle } from 'lucide-react';
+import { ShoppingCart, LogOut, User as UserIcon, ShieldAlert, Heart, Search, ChevronDown, Menu, Phone, Mail, Award, MessageCircle, Laptop } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import api from '../services/api';
@@ -82,9 +82,9 @@ export const Header: React.FC = () => {
               <Phone className="w-3.5 h-3.5" />
               1900 1234
             </a>
-            <a href="mailto:contact@shopnow.vn" className="flex items-center gap-1 hover:text-blue-600 transition-colors">
+            <a href="mailto:contact@laptopshop.vn" className="flex items-center gap-1 hover:text-blue-600 transition-colors">
               <Mail className="w-3.5 h-3.5" />
-              contact@shopnow.vn
+              contact@laptopshop.vn
             </a>
           </div>
         </div>
@@ -98,9 +98,9 @@ export const Header: React.FC = () => {
           <div className="flex items-center justify-between">
             <Link to="/" className="text-2xl font-black text-blue-600 flex items-center gap-2 tracking-tight">
               <span className="bg-blue-600 text-white p-2 rounded-xl flex items-center justify-center shadow-md">
-                <ShoppingCart className="w-6 h-6" />
+                <Laptop className="w-6 h-6" />
               </span>
-              <span>ShopNow<span className="text-gray-400 font-normal text-xs block -mt-1 tracking-wide">LAPTOP ONLY</span></span>
+              <span>Laptopshop<span className="text-gray-400 font-normal text-xs block -mt-1 tracking-wide">LAPTOP CHÍNH HÃNG</span></span>
             </Link>
           </div>
 
@@ -320,9 +320,9 @@ export const Header: React.FC = () => {
             <Link to="/new-arrivals" className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors border-b-2 border-transparent hover:border-blue-600">
               Hàng mới
             </Link>
-            <span className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors cursor-pointer border-b-2 border-transparent hover:border-blue-600">
+            <Link to="/flash-sale" className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors border-b-2 border-transparent hover:border-blue-600">
               Flash Sale
-            </span>
+            </Link>
             <span className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors cursor-pointer border-b-2 border-transparent hover:border-blue-600">
               Ưu đãi
             </span>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
+import { Laptop } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -13,9 +13,9 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-4 space-y-4">
             <Link to="/" className="text-xl font-black text-white flex items-center gap-2 tracking-tight">
               <span className="bg-blue-600 text-white p-1.5 rounded-lg flex items-center justify-center">
-                <ShoppingCart className="w-4.5 h-4.5" />
+                <Laptop className="w-4.5 h-4.5" />
               </span>
-              <span>ShopNow<span className="text-gray-500 font-normal text-[10px] block -mt-1 tracking-wide">LAPTOP ONLY</span></span>
+              <span>Laptopshop<span className="text-gray-500 font-normal text-[10px] block -mt-1 tracking-wide">LAPTOP CHÍNH HÃNG</span></span>
             </Link>
             <p className="text-gray-400 text-xs leading-relaxed">
               Hệ thống cửa hàng phân phối laptop chính hãng hàng đầu tại Việt Nam. Cung cấp các dòng máy đa dạng từ học tập văn phòng đến gaming chuyên nghiệp với dịch vụ hậu mãi và bảo hành tốt nhất.
@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
                 📞 <strong>Hotline hỗ trợ:</strong> <a href="tel:19001234" className="text-white hover:text-blue-500 font-bold">1900 1234</a>
               </p>
               <p className="m-0 text-gray-400">
-                ✉️ <strong>Email liên hệ:</strong> <a href="mailto:contact@shopnow.vn" className="text-white hover:text-blue-500">contact@shopnow.vn</a>
+                ✉️ <strong>Email liên hệ:</strong> <a href="mailto:contact@laptopshop.vn" className="text-white hover:text-blue-500">contact@laptopshop.vn</a>
               </p>
             </div>
           </div>
@@ -82,7 +82,7 @@ export const Footer: React.FC = () => {
       <div className="border-t border-gray-800 bg-gray-950 py-6 text-xs font-medium text-gray-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="m-0">
-            &copy; {new Date().getFullYear()} ShopNow - LAPTOP ONLY. Dự án chuyển đổi React & Spring Boot. All rights reserved.
+            &copy; {new Date().getFullYear()} Laptopshop. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-white transition-colors">Điều khoản dịch vụ</a>
