@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { ShoppingCart, LogOut, User as UserIcon, ShieldAlert, Heart, Search, ChevronDown, Menu, Phone, Mail, Award, MessageCircle, Laptop } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -308,21 +308,67 @@ export const Header: React.FC = () => {
 
           {/* Main nav items */}
           <nav className="flex space-x-6 sm:space-x-8 pl-8 text-sm">
-            <Link to="/" className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors border-b-2 border-transparent hover:border-blue-600">
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `font-bold py-3 transition-colors border-b-2 ${
+                  isActive
+                    ? 'text-blue-600 border-blue-600'
+                    : 'text-gray-700 border-transparent hover:text-blue-600 hover:border-blue-600'
+                }`
+              }
+            >
               Trang chủ
-            </Link>
-            <Link to="/products" className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors border-b-2 border-transparent hover:border-blue-600">
+            </NavLink>
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                `font-bold py-3 transition-colors border-b-2 ${
+                  isActive
+                    ? 'text-blue-600 border-blue-600'
+                    : 'text-gray-700 border-transparent hover:text-blue-600 hover:border-blue-600'
+                }`
+              }
+            >
               Sản phẩm
-            </Link>
-            <Link to="/best-sellers" className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors border-b-2 border-transparent hover:border-blue-600">
+            </NavLink>
+            <NavLink
+              to="/best-sellers"
+              className={({ isActive }) =>
+                `font-bold py-3 transition-colors border-b-2 ${
+                  isActive
+                    ? 'text-blue-600 border-blue-600'
+                    : 'text-gray-700 border-transparent hover:text-blue-600 hover:border-blue-600'
+                }`
+              }
+            >
               Bán chạy
-            </Link>
-            <Link to="/new-arrivals" className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors border-b-2 border-transparent hover:border-blue-600">
+            </NavLink>
+            <NavLink
+              to="/new-arrivals"
+              className={({ isActive }) =>
+                `font-bold py-3 transition-colors border-b-2 ${
+                  isActive
+                    ? 'text-blue-600 border-blue-600'
+                    : 'text-gray-700 border-transparent hover:text-blue-600 hover:border-blue-600'
+                }`
+              }
+            >
               Hàng mới
-            </Link>
-            <Link to="/flash-sale" className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors border-b-2 border-transparent hover:border-blue-600">
+            </NavLink>
+            <NavLink
+              to="/flash-sale"
+              className={({ isActive }) =>
+                `font-bold py-3 transition-colors border-b-2 ${
+                  isActive
+                    ? 'text-blue-600 border-blue-600'
+                    : 'text-gray-700 border-transparent hover:text-blue-600 hover:border-blue-600'
+                }`
+              }
+            >
               Flash Sale
-            </Link>
+            </NavLink>
             <span className="text-gray-700 hover:text-blue-600 font-bold py-3 transition-colors cursor-pointer border-b-2 border-transparent hover:border-blue-600">
               Ưu đãi
             </span>
