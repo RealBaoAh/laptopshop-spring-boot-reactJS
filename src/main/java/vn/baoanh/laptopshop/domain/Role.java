@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "roles")
@@ -25,6 +26,7 @@ public class Role implements Serializable {
 
     // role - one => many - users . ctrl + k . press 's'
     @OneToMany(mappedBy = "role")
+    @JsonIgnore
     private List<User> users;
 
     public long getId() {

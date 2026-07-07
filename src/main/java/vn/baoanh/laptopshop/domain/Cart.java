@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "carts")
@@ -28,6 +29,7 @@ public class Cart implements Serializable {
     // user_id
     @OneToOne()
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     // cart_detail_id

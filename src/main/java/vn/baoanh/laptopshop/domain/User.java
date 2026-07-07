@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +33,7 @@ public class User implements Serializable {
 
     @NotNull
     @Size(min = 2, message = "Password phải có tối thiểu 2 ký tự")
+    @JsonIgnore
     private String password;
 
     @NotNull
@@ -50,9 +52,11 @@ public class User implements Serializable {
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Order> orders;
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Cart cart;
 
     @Override

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-blue-50: #f5f3ff;
+  --color-blue-100: #ede9fe;
+  --color-blue-200: #ddd6fe;
+  --color-blue-300: #c084fc;
+  --color-blue-400: #a855f7;
+  --color-blue-500: #8b5cf6;
+  --color-blue-600: #5e17eb; /* Brand Purple */
+  --color-blue-700: #4c0dfb; /* Brand Purple Hover */
+  --color-blue-800: #3b07b3;
+  --color-blue-900: #2e058c;
+  --color-blue-950: #1d0259;
+}
