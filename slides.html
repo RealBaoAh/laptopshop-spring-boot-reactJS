@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laptopshop Presentation Slides</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f7f6f2;
+      --navy-dark: #1e295d;
+      --navy-light: #2c3a7a;
+      --card-light: #e3e6f0;
+      --text-main: #1a1a1a;
+      --text-muted: #555555;
+      --grid-color: rgba(30, 41, 93, 0.08);
+      --accent: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Slides Wrapper with 16:9 Aspect Ratio Auto-scaling */
+    #presentation-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1920px;
+      height: 1080px;
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center center;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--grid-color);
+    }
+
+    /* Grid Lines Overlay to mimic the template */
+    .grid-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .grid-v1 {
+      position: absolute;
+      top: 0;
+      left: 566px;
+      width: 1px;
+      height: 100%;
+      background-color: var(--grid-color);
+    }
+    .grid-v2 {
+      position: absolute;
+      top: 0;
+      left: 960px;
+      width: 1px;
+      height: 100%;
+      background-color: var(--grid-color);
+    }
+    .grid-v3 {
+      position: absolute;
+      top: 0;
+      left: 1354px;
+      width: 1px;
+      height: 100%;
+      background-color: var(--grid-color);
+    }
+    .grid-h1 {
+      position: absolute;
+      top: 178px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--grid-color);
+    }
+    .grid-h2 {
+      position: absolute;
+      bottom: 220px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--grid-color);
+    }
+
+    /* Global Header */
+    header {
+      position: relative;
+      z-index: 10;
+      height: 178px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 80px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background-color: var(--navy-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      letter-spacing: -1px;
+    }
+
+    .nav-pill {
+      background-color: var(--navy-dark);
+      border-radius: 50px;
+      display: flex;
+      padding: 6px 10px;
+      gap: 5px;
+      box-shadow: 0 10px 25px -5px rgba(30, 41, 93, 0.3);
+    }
+
+    .nav-item {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 50px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: white;
+      background-color: var(--navy-light);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .nav-item:hover:not(.active) {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .tag-right {
+      font-size: 20px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--navy-dark);
+    }
+
+    /* Slide Container */
+    #slide-viewport {
+      position: relative;
+      flex-grow: 1;
+      width: 100%;
+      z-index: 5;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(50px);
+      padding: 0 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+
+    /* Bottom Footer Bar */
+    footer {
+      position: relative;
+      z-index: 10;
+      height: 220px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 0 0 80px;
+    }
+
+    .footer-bar {
+      width: 1000px;
+      height: 100px;
+      background-color: var(--navy-dark);
+      border-top-right-radius: 40px;
+      box-shadow: 0 -5px 25px rgba(30, 41, 93, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    /* Controls styling */
+    .controls {
+      position: absolute;
+      bottom: 30px;
+      left: 80px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 20;
+    }
+
+    .control-btn {
+      background-color: var(--navy-dark);
+      border: none;
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .control-btn:hover {
+      background-color: var(--navy-light);
+      transform: scale(1.05);
+    }
+
+    .slide-number {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    /* Slide specific styles */
+    /* Slide 1: Intro */
+    .slide-intro-left {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .slide-intro-title-huge {
+      font-size: 120px;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -4px;
+      color: var(--navy-dark);
+    }
+
+    .slide-tag-pill {
+      background-color: var(--navy-dark);
+      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      padding: 15px 40px;
+      border-radius: 50px;
+      align-self: flex-start;
+      box-shadow: 0 10px 20px rgba(30, 41, 93, 0.2);
+    }
+
+    .slide-intro-desc {
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 680px;
+    }
+
+    .slide-intro-desc ul {
+      margin-left: 25px;
+      margin-top: 10px;
+    }
+
+    .slide-intro-desc li {
+      margin-bottom: 8px;
+    }
+
+    .slide-intro-members {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--navy-dark);
+      border-left: 4px solid var(--navy-dark);
+      padding-left: 15px;
+    }
+
+    .slide-intro-right {
+      width: 42%;
+      height: 600px;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .slide-intro-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Slide 2: Phân Công */
+    .slide-split-left {
+      width: 45%;
+      height: 600px;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .slide-split-left img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-split-right {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    .section-title-wrapper {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .section-title-bg {
+      font-size: 80px;
+      font-weight: 800;
+      color: rgba(30, 41, 93, 0.05);
+      line-height: 0.8;
+      text-transform: uppercase;
+    }
+
+    .section-title-fg {
+      font-size: 55px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      position: absolute;
+      top: 35px;
+      left: 30px;
+    }
+
+    .team-card {
+      background-color: var(--navy-dark);
+      color: white;
+      border-radius: 20px;
+      padding: 30px 40px;
+      box-shadow: 0 10px 30px rgba(30, 41, 93, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .team-card-header {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+    }
+
+    .team-card-body {
+      font-size: 15px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Slide 3: Kiến Trúc */
+    .slide-arch-left {
+      width: 48%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .arch-card {
+      background-color: var(--navy-dark);
+      color: white;
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 15px 35px rgba(30, 41, 93, 0.2);
+    }
+
+    .arch-card-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .arch-card-body {
+      font-size: 16px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .arch-list {
+      list-style-type: none;
+      margin-top: 15px;
+    }
+
+    .arch-list li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .arch-list li::before {
+      content: "•";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+      font-size: 20px;
+      top: -2px;
+    }
+
+    .slide-arch-right {
+      width: 46%;
+      height: 520px;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      background-color: #0c122c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide-arch-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Slide 4: Kỹ Thuật Cơ Bản */
+    .tech-bg-icon {
+      position: absolute;
+      left: 250px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 350px;
+      color: rgba(30, 41, 93, 0.03);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .tech-cards-column {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tech-card-item {
+      border-radius: 20px;
+      padding: 30px 40px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .tech-card-item.dark {
+      background-color: var(--navy-dark);
+      color: white;
+    }
+
+    .tech-card-item.light {
+      background-color: var(--card-light);
+      color: var(--navy-dark);
+    }
+
+    .tech-card-item:hover {
+      transform: translateX(-5px);
+    }
+
+    .tech-card-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .tech-card-body {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* Slide 5: Kỹ Thuật Nâng Cao */
+    .slide-tech-advanced-left {
+      width: 54%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .adv-tech-card {
+      border-radius: 20px;
+      padding: 25px 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .adv-tech-card.dark {
+      background-color: var(--navy-dark);
+      color: white;
+    }
+
+    .adv-tech-card.light {
+      background-color: var(--card-light);
+      color: var(--navy-dark);
+    }
+
+    .adv-tech-card-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .adv-tech-card-body {
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: 0.95;
+    }
+
+    .slide-tech-advanced-right {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .adv-right-desc {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    /* Slide 6: Kết quả đạt được */
+    .slide-results-left {
+      width: 48%;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .result-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .result-item {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      border-left: 5px solid var(--accent);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .result-item-num {
+      background-color: var(--navy-dark);
+      color: white;
+      font-weight: 700;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .result-item-text {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .result-item-title {
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 4px;
+    }
+
+    /* Slide Transitions */
+    .fade-out {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    /* Responsive scaling helper (just text info if outside full scale) */
+    .scaling-info {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 100;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="presentation-container">
+    
+    <!-- Blueprint Lines -->
+    <div class="grid-lines">
+      <div class="grid-v1"></div>
+      <div class="grid-v2"></div>
+      <div class="grid-v3"></div>
+      <div class="grid-h1"></div>
+      <div class="grid-h2"></div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">L</div>
+        <div class="logo-text">LAPTOP SHOP</div>
+      </div>
+      <div class="nav-pill">
+        <div class="nav-item active" onclick="goToSlide(0)">Giới Thiệu</div>
+        <div class="nav-item" onclick="goToSlide(1)">Phân Công</div>
+        <div class="nav-item" onclick="goToSlide(2)">Kiến Trúc</div>
+        <div class="nav-item" onclick="goToSlide(3)">Kỹ Thuật CB</div>
+        <div class="nav-item" onclick="goToSlide(4)">Kỹ Thuật NC</div>
+        <div class="nav-item" onclick="goToSlide(5)">Kết Quả</div>
+      </div>
+      <div class="tag-right">CHUYÊN ĐỀ WEB</div>
+    </header>
+
+    <!-- Slide Viewport -->
+    <div id="slide-viewport">
+
+      <!-- Slide 1: Giới Thiệu -->
+      <div class="slide active">
+        <div class="slide-intro-left">
+          <div class="slide-intro-title-huge">LAPTOP<br>SHOP</div>
+          <div class="slide-tag-pill">Giới Thiệu Đồ Án</div>
+          <div class="slide-intro-desc">
+            <strong>Website Thương Mại Điện Tử Bán Máy Tính Xách Tay (Spring Boot + ReactJS)</strong>
+            <ul>
+              <li>Khách hàng duyệt sản phẩm, lọc/tìm kiếm thông minh, quản lý giỏ hàng, đặt mua và xem lịch sử đơn hàng.</li>
+              <li>Admin quản trị hệ thống toàn diện: thống kê đơn hàng, quản lý danh mục sản phẩm, người dùng và trạng thái giao hàng.</li>
+            </ul>
+          </div>
+          <div class="slide-intro-members">
+            Thành viên: Nguyễn Bảo Nguyên (22130189) & Nguyễn Bảo Anh (22130200)<br>
+            Giảng viên hướng dẫn: ThS. Lê Phi Hùng
+          </div>
+        </div>
+        <div class="slide-intro-right">
+          <!-- Unsplash Premium Tech Retail Image -->
+          <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=80" alt="Tech Showcase">
+        </div>
+      </div>
+
+      <!-- Slide 2: Phân Công Công Việc -->
+      <div class="slide">
+        <div class="slide-split-left">
+          <!-- Unsplash Coder Laptop Image -->
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80" alt="Coding on laptop">
+        </div>
+        <div class="slide-split-right">
+          <div class="section-title-wrapper">
+            <div class="section-title-bg">Phân Công</div>
+            <div class="section-title-fg">Công Việc</div>
+          </div>
+          
+          <div class="team-card">
+            <div class="team-card-header">Nguyễn Bảo Nguyên — 22130189</div>
+            <div class="team-card-body">
+              <strong>Frontend & Integration:</strong> Thiết kế giao diện React SPA responsive (Trang chủ, Sản phẩm, Chi tiết sản phẩm, Giỏ hàng, Đặt hàng). Quản lý state toàn cục với React Context (`AuthContext` & `CartContext`), tích hợp APIs bất đồng bộ (Axios), phát triển tính năng active navigation link, bộ lọc thông minh, và thanh tìm kiếm tự động gợi ý sản phẩm tức thì.
+            </div>
+          </div>
+
+          <div class="team-card">
+            <div class="team-card-header">Nguyễn Bảo Anh — 22130200</div>
+            <div class="team-card-body">
+              <strong>Backend & Database:</strong> Xây dựng cấu trúc dự án Spring Boot MVC. Thiết kế Database Schema MySQL (các mối quan hệ thực thể JPA Hibernate `@OneToMany`, `@ManyToOne`). Tích hợp cơ chế bảo mật phân quyền với `Spring Security 6` (BCrypt, Session JDBC). Thiết lập Validation đầu vào nâng cao (`@RegisterChecked`, `@StrongPassword`) và triển khai API endpoints.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Kiến Trúc Hệ Thống -->
+      <div class="slide">
+        <div class="slide-arch-left">
+          <div class="section-title-wrapper">
+            <div class="section-title-bg">Kiến Trúc</div>
+            <div class="section-title-fg">Hệ Thống</div>
+          </div>
+
+          <div class="arch-card">
+            <div class="arch-card-title">Mô Hình Tổng Quan</div>
+            <div class="arch-card-body">
+              Ứng dụng được thiết kế theo kiến trúc <strong>Client-Server tách biệt hoàn toàn</strong> nhằm nâng cao tính mở rộng và hiệu năng:
+              <ul class="arch-list">
+                <li><strong>Frontend (React SPA):</strong> Xây dựng bằng React 19, TypeScript, và Vite giúp tăng tốc phát triển. Gọi các API bất đồng bộ (Axios) và trao đổi dữ liệu định dạng JSON.</li>
+                <li><strong>Backend (Spring Boot):</strong> Đóng vai trò là RESTful API Service. Tiếp nhận request, xử lý nghiệp vụ thông qua tầng Service và ánh xạ dữ liệu bằng Spring Data JPA.</li>
+                <li><strong>Database & Session:</strong> Hệ quản trị cơ sở dữ liệu MySQL. Trạng thái phiên làm việc (Session) được lưu trữ tập trung trong database bằng Spring Session JDBC thay vì RAM Tomcat.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="slide-arch-right">
+          <!-- Server Room image showing database architecture -->
+          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80" alt="Server Infrastructure">
+        </div>
+      </div>
+
+      <!-- Slide 4: Kỹ Thuật Cơ Bản -->
+      <div class="slide">
+        <!-- SVG Background React Icon -->
+        <svg class="tech-bg-icon" viewBox="0 0 841.9 738.9">
+          <path fill="none" stroke="currentColor" stroke-width="20" d="M220.5 442C220.5 572.3 291 677.7 378.1 677.7C451.8 677.7 513.7 600.3 531.5 500M621.4 296.9C621.4 166.7 550.9 61.3 463.8 61.3C390.1 61.3 328.2 138.7 310.4 239M313.6 510.6C227.1 608.2 147.2 654.5 90.6 601C42.8 555.7 66.8 450.4 140.7 353M528.3 228.3C614.8 130.7 694.7 84.4 751.3 137.9C799.1 183.2 775.1 288.5 701.2 385.9M144.2 225C65.5 289.4 15.6 376.1 47 445C73.6 503.2 173.2 506.4 278.4 453.6M697.7 513.9C776.4 449.5 826.3 362.8 794.9 293.9C768.3 235.7 668.7 232.5 563.5 285.3"/>
+          <circle cx="420.9" cy="369.5" r="45" fill="currentColor"/>
+        </svg>
+        <div class="slide-intro-left" style="width: 45%;">
+          <div class="section-title-wrapper">
+            <div class="section-title-bg">Kỹ Thuật</div>
+            <div class="section-title-fg">Cơ Bản</div>
+          </div>
+          <div class="slide-intro-desc" style="font-size: 22px; margin-top: 30px;">
+            Hệ thống áp dụng các nguyên lý cốt lõi của công nghệ web hiện đại, đảm bảo tính bất đồng bộ cao và kiến trúc phân lớp chuẩn hóa.
+          </div>
+        </div>
+        <div class="tech-cards-column">
+          <div class="tech-card-item dark">
+            <div class="tech-card-title">Frontend — React SPA</div>
+            <div class="tech-card-body">
+              Kiến trúc dựa trên Component giúp giao diện tái sử dụng tối đa. Routing điều hướng động qua `react-router-dom` phân chia rõ giao diện người dùng và Admin Layout. Giao diện responsive trên mobile/tablet nhờ Tailwind CSS.
+            </div>
+          </div>
+          <div class="tech-card-item light">
+            <div class="tech-card-title">Bất Đồng Bộ — Async / Ajax</div>
+            <div class="tech-card-body">
+              Trao đổi dữ liệu không tải lại trang với thư viện Axios qua async/await. Tìm kiếm tự động gợi ý sản phẩm (Auto-suggest), thêm vào giỏ hàng, cập nhật số lượng và tổng tiền tức thì qua trạng thái dùng chung (React Context).
+            </div>
+          </div>
+          <div class="tech-card-item dark">
+            <div class="tech-card-title">MVC Architecture — Backend</div>
+            <div class="tech-card-body">
+              Phân tách rõ ràng: Model (JPA Entity tương tác DB), View (Trả dữ liệu JSON thông qua ResponseEntity của Controller), Controller (Định nghĩa endpoints nhận REST requests), và Service layer (Nghiệp vụ nghiệp vụ logic tách biệt).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5: Kỹ Thuật Nâng Cao -->
+      <div class="slide">
+        <div class="slide-tech-advanced-left">
+          <div class="adv-tech-card dark">
+            <div class="adv-tech-card-title">Bảo Mật (Security)</div>
+            <div class="adv-tech-card-body">
+              Cấu hình Spring Security 6 quản lý filter chain chặt chẽ. Mã hóa mật khẩu người dùng bằng thuật toán một chiều BCrypt. Phân quyền truy cập dựa trên vai trò (Role-Based Access Control) cho đường dẫn `/admin/**` và CORS config ngăn chặn truy cập trái phép.
+            </div>
+          </div>
+          <div class="adv-tech-card light">
+            <div class="adv-tech-card-title">Validation 2 Lớp</div>
+            <div class="adv-tech-card-body">
+              Frontend bắt lỗi tức thì. Backend tích hợp Hibernate Validator kiểm tra dữ liệu bằng các annotation chuẩn (`@Email`, `@Size`). Triển khai custom annotation `@RegisterChecked` để validate tính trùng khớp mật khẩu và kiểm tra trùng email đăng ký.
+            </div>
+          </div>
+          <div class="adv-tech-card light">
+            <div class="adv-tech-card-title">Spring Data JPA</div>
+            <div class="adv-tech-card-body">
+              Ánh xạ quan hệ thực thể (ORM) giữa các bảng quan trọng: `User` - `Order` - `OrderDetail` và `Cart` - `CartDetail` - `Product`. Kế thừa `JpaRepository` hỗ trợ tự động hóa CRUD, phân trang và sắp xếp sản phẩm hiệu quả.
+            </div>
+          </div>
+          <div class="adv-tech-card dark">
+            <div class="adv-tech-card-title">Lưu Phiên Tập Trung</div>
+            <div class="adv-tech-card-body">
+              Áp dụng thư viện `Spring Session JDBC` lưu trữ trạng thái người dùng trực tiếp vào cơ sở dữ liệu (`SPRING_SESSION`). Đảm bảo hệ thống hoạt động ổn định và sẵn sàng cho việc phân tải (Load Balancing) mà không mất thông tin giỏ hàng/phiên làm việc.
+            </div>
+          </div>
+        </div>
+        <div class="slide-tech-advanced-right">
+          <div class="section-title-wrapper">
+            <div class="section-title-bg">Kỹ Thuật</div>
+            <div class="section-title-fg">Nâng Cao</div>
+          </div>
+          <div class="adv-right-desc">
+            Hệ thống tích hợp các cơ chế bảo mật cấp độ doanh nghiệp, cấu hình JPA tối ưu hóa câu lệnh SQL và quản lý dữ liệu chặt chẽ qua cơ chế kiểm tra dữ liệu hợp lệ đầu vào.
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 6: Kết Quả Đạt Được -->
+      <div class="slide">
+        <div class="slide-results-left">
+          <div class="section-title-wrapper">
+            <div class="section-title-bg">Kết Quả</div>
+            <div class="section-title-fg">Đạt Được</div>
+          </div>
+          <div class="result-list">
+            <div class="result-item">
+              <div class="result-item-num">1</div>
+              <div class="result-item-text">
+                <div class="result-item-title">Hệ thống Decoupled hoàn thiện</div>
+                Xây dựng thành công ứng dụng web SPA hoạt động mượt mà, phân cấp độc lập Frontend (ReactJS) và Backend (Spring Boot REST APIs).
+              </div>
+            </div>
+            <div class="result-item">
+              <div class="result-item-num">2</div>
+              <div class="result-item-text">
+                <div class="result-item-title">Bảo mật & Quản lý phiên an toàn</div>
+                Người dùng được xác thực an toàn thông qua Spring Security, mật khẩu mã hóa BCrypt, và thông tin giỏ hàng được duy trì bền vững nhờ cơ sở dữ liệu session.
+              </div>
+            </div>
+            <div class="result-item">
+              <div class="result-item-num">3</div>
+              <div class="result-item-text">
+                <div class="result-item-title">Quản trị toàn diện</div>
+                Giao diện Admin Panel trực quan cho phép thêm mới sản phẩm, quản lý kho hàng, duyệt trạng thái đơn hàng của người dùng.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-intro-right">
+          <!-- Unsplash Finished Project success image -->
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Team success">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Decorative Bar & Footer -->
+    <footer>
+      <div class="footer-bar">
+        <span>Đồ án môn học: Chuyên Đề Công Nghệ Phần Mềm</span>
+        <span>Trường Đại Học Nông Lâm TP.HCM</span>
+      </div>
+    </footer>
+
+    <!-- Controls navigation -->
+    <div class="controls">
+      <button class="control-btn" id="prev-btn" onclick="prevSlide()">&lt;</button>
+      <span class="slide-number" id="slide-num-indicator">1 / 6</span>
+      <button class="control-btn" id="next-btn" onclick="nextSlide()">&gt;</button>
+    </div>
+
+  </div>
+
+  <div class="scaling-info" id="scale-indicator">Scale: 100%</div>
+
+  <script>
+    // Slide Management
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const navItems = document.querySelectorAll('.nav-item');
+    const slideIndicator = document.getElementById('slide-num-indicator');
+
+    function updateNavActive(index) {
+      navItems.forEach(item => item.classList.remove('active'));
+      // Map slides to nav-pill options
+      if (index === 0) navItems[0].classList.add('active');
+      else if (index === 1) navItems[1].classList.add('active');
+      else if (index === 2) navItems[2].classList.add('active');
+      else if (index === 3) navItems[3].classList.add('active');
+      else if (index === 4) navItems[4].classList.add('active');
+      else if (index === 5) navItems[5].classList.add('active');
+    }
+
+    function goToSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+      
+      // Animate transition
+      slides[currentSlide].classList.remove('active');
+      slides[currentSlide].classList.add('fade-out');
+      
+      const prevIndex = currentSlide;
+      currentSlide = index;
+      
+      setTimeout(() => {
+        slides[prevIndex].classList.remove('fade-out');
+        slides[currentSlide].classList.add('active');
+        slideIndicator.textContent = `${currentSlide + 1} / ${slides.length}`;
+        updateNavActive(currentSlide);
+      }, 200);
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        goToSlide(currentSlide + 1);
+      }
+    }
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      }
+    });
+
+    // Auto Scaling to fit 16:9 perfectly inside viewport
+    function adjustScale() {
+      const container = document.getElementById('presentation-container');
+      const scaleIndicator = document.getElementById('scale-indicator');
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      
+      // Target aspect ratio is 16:9 (1920x1080)
+      const scaleX = w / 1920;
+      const scaleY = h / 1080;
+      
+      // Use the smaller scale factor to ensure everything fits inside
+      const scale = Math.min(scaleX, scaleY) * 0.96; // 0.96 for slight margin
+      
+      container.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      scaleIndicator.textContent = `Scale: ${Math.round(scale * 100)}%`;
+    }
+
+    window.addEventListener('resize', adjustScale);
+    window.addEventListener('load', adjustScale);
+  </script>
+</body>
+</html>
